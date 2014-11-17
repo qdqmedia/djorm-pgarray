@@ -257,7 +257,8 @@ if django.VERSION[:2] >= (1, 7):
             lhs, lhs_params = self.process_lhs(qn, connection)
             rhs, rhs_params = self.process_rhs(qn, connection)
             params = lhs_params + rhs_params
-            var = "%s @> %s" % (lhs, rhs), params
+            type_key = lhs.output_field._array_type.split('(')[0]
+            var = "%s @> %s::%s" % (lhs, rhs, type_key), params
             return var
 
     class ContainedByLookup(Lookup):
